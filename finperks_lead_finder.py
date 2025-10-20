@@ -538,7 +538,7 @@ class FunnelVisualizer:
         plt.tight_layout()
         plt.savefig(output_path, dpi=300, bbox_inches="tight")
         console.print(
-            f"\n[green]✓[/green] Visualization saved to [cyan]{output_path}[/cyan]"
+            f"\n[green]OK[/green] Visualization saved to [cyan]{output_path}[/cyan]"
         )
         plt.close()
 
@@ -557,7 +557,7 @@ def display_summary(scored_companies: list[ScoredCompany]):
 
     # Summary table
     table = Table(
-        title="\n🎯 Lead Scoring Summary",
+        title="\nLead Scoring Summary",
         show_header=True,
         header_style="bold magenta",
     )
@@ -584,7 +584,7 @@ def display_summary(scored_companies: list[ScoredCompany]):
     top_leads = sorted(enriched, key=lambda x: x.lead_score, reverse=True)[:10]
 
     if top_leads:
-        console.print("\n🏆 [bold yellow]Top 10 Leads:[/bold yellow]")
+        console.print("\n[bold yellow]Top 10 Leads:[/bold yellow]")
         leads_table = Table(show_header=True, header_style="bold yellow")
         leads_table.add_column("Company", style="cyan", width=20)
         leads_table.add_column("Score", style="green", width=8)
@@ -643,7 +643,7 @@ Examples:
     viz_output = args.input_file.parent / f"{args.input_file.stem}_funnel.png"
 
     # Display header
-    console.print("\n[bold blue]🎯 Lead Finder[/bold blue]", justify="center")
+    console.print("\n[bold blue]Lead Finder[/bold blue]", justify="center")
     console.print(
         "[dim]Finding ideal bank & fintech prospects for cashback API[/dim]\n",
         justify="center",
@@ -653,18 +653,18 @@ Examples:
     try:
         df = pd.read_csv(args.input_file)
         console.print(
-            f"[green]✓[/green] Loaded {len(df)} companies from [cyan]{args.input_file}[/cyan]"
+            f"[green]OK[/green] Loaded {len(df)} companies from [cyan]{args.input_file}[/cyan]"
         )
     except FileNotFoundError:
-        console.print(f"[red]✗[/red] File not found: {args.input_file}")
+        console.print(f"[red]ERROR[/red] File not found: {args.input_file}")
         return
     except Exception as e:
-        console.print(f"[red]✗[/red] Error reading CSV: {e}")
+        console.print(f"[red]ERROR[/red] Error reading CSV: {e}")
         return
 
     required_columns = {"Name", "Domain"}
     if not required_columns.issubset(df.columns):
-        console.print(f"[red]✗[/red] CSV must contain columns: {required_columns}")
+        console.print(f"[red]ERROR[/red] CSV must contain columns: {required_columns}")
         return
 
     try:
@@ -673,7 +673,7 @@ Examples:
             for _, row in df.iterrows()
         ]
     except Exception as e:
-        console.print(f"[red]✗[/red] Error parsing company data: {e}")
+        console.print(f"[red]ERROR[/red] Error parsing company data: {e}")
         return
 
     api = MockEnrichmentAPI()
@@ -691,10 +691,10 @@ Examples:
     try:
         output_df.to_csv(args.output, index=False)
         console.print(
-            f"[green]✓[/green] Scored leads saved to [cyan]{args.output}[/cyan]"
+            f"[green]OK[/green] Scored leads saved to [cyan]{args.output}[/cyan]"
         )
     except Exception as e:
-        console.print(f"[red]✗[/red] Error saving output: {e}")
+        console.print(f"[red]ERROR[/red] Error saving output: {e}")
         return
 
     display_summary(scored_companies)
@@ -705,10 +705,10 @@ Examples:
             FunnelVisualizer.create_funnel_visualization(scored_companies, viz_output)
         except Exception as e:
             console.print(
-                f"[yellow]⚠[/yellow] Warning: Could not generate visualization: {e}"
+                f"[yellow]WARNING[/yellow] Could not generate visualization: {e}"
             )
 
-    console.print("\n[bold green]✨ Lead scoring complete![/bold green]\n")
+    console.print("\n[bold green]Lead scoring complete![/bold green]\n")
 
 
 if __name__ == "__main__":
