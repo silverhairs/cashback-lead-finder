@@ -12,7 +12,13 @@ uv sync                                          # Install dependencies
 ## Run
 
 ```bash
-uv run python finperks_lead_finder.py companies.csv
+uv run python finperks_lead_finder.py <input file name>
+```
+
+or
+
+```bash
+python finperks_lead_finder.py <input file name>
 ```
 
 **Input**: CSV with `Name,Domain` columns
